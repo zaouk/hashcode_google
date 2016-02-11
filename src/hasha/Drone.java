@@ -9,18 +9,23 @@ public class Drone {
 	Point location;
 	int currentPayLoad;
 	
-	public void calculatePayLoad()
+
+	public Drone(int maxPayLoad)
 	{
-		currentPayLoad=123;
-	}
-	public Drone()
-	{
-		
+		location=new Point(1, 1);
+		this.maxPayLoad=maxPayLoad;
 	}
 	
-	public void LoadItems()
+	public void LoadItem(ProductType type,int nb)
 	{
-		
+		if(type.weight*nb>maxPayLoad)
+		{
+			//can't load 
+		}
+		else
+		{	currentPayLoad+=type.weight*nb;
+			items.put(type, nb);
+		}
 	}
 	public void Deliver(Order order, HashMap<ProductType,Integer> items)
 	{
