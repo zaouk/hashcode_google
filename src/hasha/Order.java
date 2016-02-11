@@ -7,9 +7,11 @@ public class Order {
 	public HashMap<ProductType, Integer> items;
 	public Point location;
 	public Integer nbItems;
+	public Integer id;
 
-	public Order(Point p) {
+	public Order(Point p,Integer id) {
 		location = p;
+		this.id=id;
 		items=new HashMap<ProductType,Integer>();
 	}
 

@@ -7,7 +7,8 @@ public class Warehouse {
 	Integer id;
 	Point location;
 	HashMap<ProductType,Integer> items;
-	public Warehouse(Point p,HashMap<ProductType,Integer> initItems) {
+	public Warehouse(Point p,HashMap<ProductType,Integer> initItems,Integer id) {
+		this.id=id;
 		items=initItems;
 		location=p;
 	}

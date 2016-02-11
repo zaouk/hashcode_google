@@ -29,7 +29,7 @@ public class hashashna {
 
 		drones = new ArrayList<Drone>();
 		for (int i = 0; i < numberOfDrones; i++) {
-			drones.add(new Drone(maxLoad));
+			drones.add(new Drone(maxLoad,i));
 		}
 
 	}
@@ -47,7 +47,7 @@ public class hashashna {
 			c = Integer.parseInt(splitted[1]);
 			line = br.readLine();
 			L = Integer.parseInt(line.split("\\s+")[0]);
-			Order order = new Order(new Point(r, c));
+			Order order = new Order(new Point(r, c),i);
 
 			line = br.readLine();
 			splitted = line.split("");
@@ -92,7 +92,7 @@ public class hashashna {
 				ll = loca.split("\\s+");
 				r = Integer.parseInt(ll[0]);
 				c = Integer.parseInt(ll[1]);
-				HashMap<ProductType, Integer> curitems = new HashMap<>();
+				HashMap<ProductType, Integer> curitems = new HashMap<ProductType, Integer>();
 
 				String items = br.readLine();
 				String[] ss = items.split("\\s+");
@@ -103,7 +103,7 @@ public class hashashna {
 					}
 				}
 				warehouses=new ArrayList<>();
-				warehouses.add(new Warehouse(new Point(r, c), curitems));
+				warehouses.add(new Warehouse(new Point(r, c), curitems,i));
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -116,7 +116,7 @@ public class hashashna {
 		BufferedReader br;
 		try {
 
-			br = new BufferedReader(new FileReader("samplein.in"));
+			br = new BufferedReader(new FileReader( "C:\\Users\\Dandachi\\workspace\\hashcode_google\\src\\busy_day.in"));
 
 			String line = br.readLine();
 			String[] splitline;
@@ -144,7 +144,7 @@ public class hashashna {
 		parseFile();
 
 		for (Order o : orders) {
-			Warehouse min=new Warehouse(new Point(1,1), new HashMap<ProductType,Integer>());
+			Warehouse min=new Warehouse(new Point(1,1), new HashMap<ProductType,Integer>(),-1);
 			Double distMin = Double.MAX_VALUE, percOrder = 0.0, dist = 0.0;
 			Integer eddon = 0;
 			HashMap<ProductType,Integer> lifinane5domin=new HashMap<ProductType,Integer>();
@@ -156,6 +156,8 @@ public class hashashna {
 				dist = Point.Distance(wh.location, o.location);
 				for (ProductType pt : o.items.keySet()) {
 					Integer badna = o.items.get(pt);
+					if(!wh.items.containsKey(pt))
+						continue;
 					Integer whB2albo = wh.items.get(pt);
 					if (badna - whB2albo <= 0) {
 						eddon += badna;
@@ -170,7 +172,7 @@ public class hashashna {
 					dist = dist / percOrder;
 				else
 					dist = Double.MAX_VALUE;
-				if (dist < distMin) {
+				if (dist <= distMin) {
 					distMin = dist;
 					min = wh;
 					lifinane5domin=lifinane5do;
@@ -189,8 +191,9 @@ public class hashashna {
 					}
 					
 			}
-			droneMin.LoadItem();
-			droneMin.Deliver(o, lifinane5domin);
+
+			droneMin.LoadItems(lifinane5domin,min);
+			droneMin.Deliver(o);
 		}
 
 	}
