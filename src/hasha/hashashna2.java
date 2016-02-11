@@ -61,12 +61,12 @@ public class hashashna2 {
 			
 			String items=br.readLine();
 			String[] ss=items.split("\\s+");
-			for(int i=0i<nbProds;i++)
+			for(int j=0;j<nbProds;j++)
 			{
-				if(!ss[i].equals("0"))
+				if(!ss[j].equals("0"))
 				{
 					//there are items of this prodtype
-					curitems.put(prods.get(i), Integer.parseInt(ss[i]));
+					curitems.put(prods.get(j), Integer.parseInt(ss[j]));
 				}
 			}
 			warehouses.add(new Warehouse(new Point(r,c),curitems));

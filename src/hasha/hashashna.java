@@ -12,7 +12,12 @@ public class hashashna {
 	Integer numberOrders;
 	ArrayList<Order> orders;
 	
+	Integer Max;
 	HashMap<Integer,ProductType> prods;
+	ArrayList<Warehouse> warehouses;
+	HashMap<ProductType,Integer> items;
+	int nbProds;
+
 	
 	public void parseHeader(String line)
 	{
@@ -58,6 +63,65 @@ public class hashashna {
 			}
 			orders.add(order);
 		}
+	}
+	public void readProductTypes(BufferedReader br)
+	{
+		nbProds=0;
+		
+		String prodWeights;
+		String[] weights;
+		try {
+			nbProds=Integer.parseInt(br.readLine());
+			prodWeights=br.readLine();
+			weights=prodWeights.split("\\s+");
+			
+			for(int i=0;i<nbProds;i++)
+			{
+				prods.put(i, new ProductType(i,Integer.parseInt(weights[i])));
+			}
+			
+			
+			
+		} catch (NumberFormatException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	public void readWareHouses(BufferedReader br)
+	{
+		int r,c;
+		String[] ll;
+		try {
+			
+			int nbwarehouse=Integer.parseInt(br.readLine());
+			for(int i=0;i<nbwarehouse;i++)
+			{
+			String loca=br.readLine();
+			ll=loca.split("\\s+");
+			r=Integer.parseInt(ll[0]);
+			c=Integer.parseInt(ll[1]);
+			HashMap<ProductType,Integer> curitems=new HashMap<>();
+			
+			String items=br.readLine();
+			String[] ss=items.split("\\s+");
+			for(int j=0;j<nbProds;j++)
+			{
+				if(!ss[j].equals("0"))
+				{
+					//there are items of this prodtype
+					curitems.put(prods.get(j), Integer.parseInt(ss[j]));
+				}
+			}
+			warehouses.add(new Warehouse(new Point(r,c),curitems));
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	public void parseFile()
 	{	
