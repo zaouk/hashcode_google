@@ -50,10 +50,11 @@ public class hashashna {
 			Order order = new Order(new Point(r, c),i);
 
 			line = br.readLine();
-			splitted = line.split("");
+
+			splitted = line.split("\\s+");
 			order.nbItems = L;
 			for (int j = 0; j < L; j++) {
-				order.addItem(prods.get(j), 1);
+				order.addItem(prods.get(Integer.parseInt(splitted[j])), 1);
 			}
 			orders.add(order);
 		}
@@ -117,7 +118,8 @@ public class hashashna {
 		try {
 
 			br = new BufferedReader(new FileReader( "C:\\Users\\Dandachi\\workspace\\hashcode_google\\src\\busy_day.in"));
-
+			//br = new BufferedReader(new FileReader( "C:\\Users\\Dandachi\\workspace\\hashcode_google\\src\\busy_day.in"));
+			//br = new BufferedReader(new FileReader( "C:\\Users\\Dandachi\\workspace\\hashcode_google\\src\\busy_day.in"));
 			String line = br.readLine();
 			String[] splitline;
 			// init header
@@ -184,7 +186,7 @@ public class hashashna {
 			for(Drone drone:drones)
 			{
 				Double distDron=Point.Distance(drone.location, min.location)+drone.currentTurn;
-				if(distDron<distDronMin)
+				if(distDron<=distDronMin)
 					{
 						distDronMin=distDron;
 						droneMin=drone;

@@ -5,7 +5,7 @@ import java.util.HashMap;
 public class Drone {
 
 	int maxPayLoad = 0;
-	HashMap<ProductType, Integer> items;
+	HashMap<ProductType, Integer> items=new HashMap<>();
 	Point location = new Point(1, 1);
 	int currentPayLoad = 0;
 	Integer currentTurn=0;
@@ -26,6 +26,8 @@ public class Drone {
 		currentTurn = Point.Distance(wh.location, location).intValue() + 1;
 		location = wh.location;
 		for (ProductType pt : itemsToLoad.keySet()) {
+			if(pt.id==null)
+				continue;
 			Integer itemsLoad = (maxPayLoad - currentPayLoad) / pt.weight;
 			Integer lifinane5do = itemsLoad > itemsToLoad.get(pt) ? itemsToLoad.get(pt) : itemsLoad;
 			if (items.containsKey(pt))
@@ -33,7 +35,7 @@ public class Drone {
 			else
 				items.put(pt, +lifinane5do);
 			if (lifinane5do > 0) {
-				toPrint += id + " L " + wh.id + " " + pt.id + " " + lifinane5do;
+				toPrint = id + " L " + wh.id + " " + pt.id + " " + lifinane5do;
 				wh.takeItem(pt, +lifinane5do);
 				System.out.println(toPrint);
 
@@ -44,7 +46,11 @@ public class Drone {
 
 	public void Deliver(Order order) {
 		currentTurn += Point.Distance(location, order.location).intValue() + 1;
+		if(items.keySet()==null||items==null)
+			return;
 		for (ProductType pt : items.keySet()) {
+			if(pt.id==null)
+				continue;
 			order.removeItems(pt, items.get(pt));
 
 			System.out.println(id + " D " + order.id + " " + pt.id + " " + items.get(pt));
@@ -53,7 +59,4 @@ public class Drone {
 
 	}
 
-	public static void main(String args[]) {
-		System.out.println("hi");
-	}
 }

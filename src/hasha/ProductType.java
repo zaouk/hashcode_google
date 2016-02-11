@@ -5,7 +5,8 @@ public class ProductType {
 	
 	public ProductType(Integer id, Integer weight)
 	{
-		
+		this.id=id;
+		this.weight=weight;
 	}
 
 	public Integer getId() {
