@@ -38,6 +38,9 @@ public class hashashna2 {
 		
 		
 	}
+	
+	public void 
+
 	public void parseFile()
 	{	
 		BufferedReader br;
