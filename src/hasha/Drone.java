@@ -1,6 +1,8 @@
 package hasha;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Drone {
 
@@ -21,9 +23,9 @@ public class Drone {
 
 	}
 
-	public void LoadItems(HashMap<ProductType, Integer> itemsToLoad, Warehouse wh) {
+	public void LoadItems(HashMap<ProductType, Integer> itemsToLoad, Warehouse wh,Queue<String> printer) {
 		String toPrint = "";
-		currentTurn = Point.Distance(wh.location, location).intValue() + 1;
+		currentTurn += Point.Distance(wh.location, location).intValue() + 1;
 		location = wh.location;
 		for (ProductType pt : itemsToLoad.keySet()) {
 			if(pt.id==null)
@@ -37,23 +39,27 @@ public class Drone {
 			if (lifinane5do > 0) {
 				toPrint = id + " L " + wh.id + " " + pt.id + " " + lifinane5do;
 				wh.takeItem(pt, +lifinane5do);
-				System.out.println(toPrint);
+				currentPayLoad+=lifinane5do*pt.weight;
+				printer.add(toPrint);
 
 			}
 
 		}
 	}
 
-	public void Deliver(Order order) {
+	public void Deliver(Order order,Queue<String> printer) {
 		currentTurn += Point.Distance(location, order.location).intValue() + 1;
 		if(items.keySet()==null||items==null)
 			return;
 		for (ProductType pt : items.keySet()) {
 			if(pt.id==null)
 				continue;
+			if(items.get(pt)==0)
+				continue;
 			order.removeItems(pt, items.get(pt));
-
-			System.out.println(id + " D " + order.id + " " + pt.id + " " + items.get(pt));
+			
+			printer.add(id + " D " + order.id + " " + pt.id + " " + items.get(pt));
+			currentPayLoad-=items.get(pt)*pt.weight;
 		}
 		items=new HashMap<ProductType,Integer>();
 

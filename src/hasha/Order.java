@@ -36,7 +36,15 @@ public class Order {
 				return false;
 		}
 	}
-
+	public Boolean isFinished()
+	{
+		for(Integer a:items.values())
+		{
+			if(a>0)
+				return false;
+		}
+		return true;
+	}
 	public Integer getCount(ProductType type) {
 		if (items.containsKey(type))
 			return items.get(type);
