@@ -7,19 +7,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class hashashna {
-	Integer rowsMax,columnsMax,numberOfDrones,deadlineTime,maxLoad;
-	ArrayList<Drone> drones;
-	Integer numberOrders;
-	ArrayList<Order> orders;
+	static Integer rowsMax,columnsMax,numberOfDrones,deadlineTime,maxLoad;
+	static ArrayList<Drone> drones;
+	static Integer numberOrders;
+	static ArrayList<Order> orders;
 	
-	Integer Max;
-	HashMap<Integer,ProductType> prods;
-	ArrayList<Warehouse> warehouses;
-	HashMap<ProductType,Integer> items;
-	int nbProds;
+	static Integer Max;
+	static HashMap<Integer,ProductType> prods;
+	static ArrayList<Warehouse> warehouses;
+	static HashMap<ProductType,Integer> items;
+	static int nbProds;
 
 	
-	public void parseHeader(String line)
+	public static void parseHeader(String line)
 	{
 		String[] splitline;
 		splitline=line.split(" ");
@@ -36,7 +36,7 @@ public class hashashna {
 		}
 		
 	}
-	public void parseOrder(BufferedReader br) throws IOException
+	public static void parseOrder(BufferedReader br) throws IOException
 	{
 		String line=br.readLine();
 		String[] splitted;
@@ -64,7 +64,7 @@ public class hashashna {
 			orders.add(order);
 		}
 	}
-	public void readProductTypes(BufferedReader br)
+	public static void readProductTypes(BufferedReader br)
 	{
 		nbProds=0;
 		
@@ -90,7 +90,7 @@ public class hashashna {
 		
 	}
 	
-	public void readWareHouses(BufferedReader br)
+	public static void readWareHouses(BufferedReader br)
 	{
 		int r,c;
 		String[] ll;
@@ -123,12 +123,12 @@ public class hashashna {
 		}
 		
 	}
-	public void parseFile()
+	public static void parseFile()
 	{	
 		BufferedReader br;
 		try {
 			
-			br = new BufferedReader(new FileReader("/home/dandachi/workspace/hash/src/dc.in"));
+			br = new BufferedReader(new FileReader("samplein.in"));
 
 			String line = br.readLine();
 			String[] splitline;
@@ -149,6 +149,7 @@ public class hashashna {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		System.out.println("nothing");
+		parseFile();
 
 	}
 
