@@ -7,127 +7,113 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class hashashna {
-	Integer rowsMax,columnsMax,numberOfDrones,deadlineTime,maxLoad;
-	ArrayList<Drone> drones;
-	Integer numberOrders;
+	static Integer rowsMax, columnsMax, numberOfDrones, deadlineTime, maxLoad;
+	static ArrayList<Drone> drones;
+	static Integer numberOrders;
 	static ArrayList<Order> orders;
-	
-	Integer Max;
-	HashMap<Integer,ProductType> prods;
-	static ArrayList<Warehouse> warehouses;
-	HashMap<ProductType,Integer> items;
-	int nbProds;
 
-	
-	public static void parseHeader(String line)
-	{
+	static Integer Max;
+	static HashMap<Integer, ProductType> prods;
+	static ArrayList<Warehouse> warehouses;
+	static HashMap<ProductType, Integer> items;
+	static int nbProds;
+
+	public static void parseHeader(String line) {
 		String[] splitline;
-		splitline=line.split(" ");
-		rowsMax=Integer.parseInt(splitline[0]);
-		columnsMax=Integer.parseInt(splitline[1]);
-		numberOfDrones=Integer.parseInt(splitline[2]);
-		deadlineTime=Integer.parseInt(splitline[3]);
-		maxLoad=Integer.parseInt(splitline[4]);
-		
-		drones=new ArrayList<Drone>();
-		for(int i=0;i<numberOfDrones;i++)
-		{
+		splitline = line.split(" ");
+		rowsMax = Integer.parseInt(splitline[0]);
+		columnsMax = Integer.parseInt(splitline[1]);
+		numberOfDrones = Integer.parseInt(splitline[2]);
+		deadlineTime = Integer.parseInt(splitline[3]);
+		maxLoad = Integer.parseInt(splitline[4]);
+
+		drones = new ArrayList<Drone>();
+		for (int i = 0; i < numberOfDrones; i++) {
 			drones.add(new Drone(maxLoad));
 		}
-		
+
 	}
-	public void parseOrder(BufferedReader br) throws IOException
-	{
-		String line=br.readLine();
+
+	public static void parseOrder(BufferedReader br) throws IOException {
+		String line = br.readLine();
 		String[] splitted;
-		Integer r,c,L;
-		numberOrders=Integer.parseInt(line);
-		orders=new ArrayList<Order>();
-		for(int i=0;i<numberOrders;i++)
-		{
-			line=br.readLine();
-			splitted=line.split("");
-			r=Integer.parseInt(splitted[0]);
-			c=Integer.parseInt(splitted[1]);
-			line=br.readLine();
-			L=Integer.parseInt(line);
-			Order order=new Order(new Point(r, c));
-			
-			
-			line=br.readLine();
-			splitted=line.split("");
-			order.nbItems=L;
-			for(int j=0;j<L;j++)
-			{
+		Integer r, c, L;
+		numberOrders = Integer.parseInt(line);
+		orders = new ArrayList<Order>();
+		for (int i = 0; i < numberOrders; i++) {
+			line = br.readLine();
+			splitted = line.split("");
+			r = Integer.parseInt(splitted[0]);
+			c = Integer.parseInt(splitted[1]);
+			line = br.readLine();
+			L = Integer.parseInt(line);
+			Order order = new Order(new Point(r, c));
+
+			line = br.readLine();
+			splitted = line.split("");
+			order.nbItems = L;
+			for (int j = 0; j < L; j++) {
 				order.addItem(prods.get(j), 1);
 			}
 			orders.add(order);
 		}
 	}
-	public void readProductTypes(BufferedReader br)
-	{
-		nbProds=0;
-		
+
+	public static void readProductTypes(BufferedReader br) {
+		nbProds = 0;
+
 		String prodWeights;
 		String[] weights;
 		try {
-			nbProds=Integer.parseInt(br.readLine());
-			prodWeights=br.readLine();
-			weights=prodWeights.split("\\s+");
-			
-			for(int i=0;i<nbProds;i++)
-			{
-				prods.put(i, new ProductType(i,Integer.parseInt(weights[i])));
+			nbProds = Integer.parseInt(br.readLine());
+			prodWeights = br.readLine();
+			weights = prodWeights.split("\\s+");
+
+			for (int i = 0; i < nbProds; i++) {
+				prods.put(i, new ProductType(i, Integer.parseInt(weights[i])));
 			}
-			
-			
-			
+
 		} catch (NumberFormatException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
 	}
-	
-	public void readWareHouses(BufferedReader br)
-	{
-		int r,c;
+
+	public static void readWareHouses(BufferedReader br) {
+		int r, c;
 		String[] ll;
 		try {
-			
-			int nbwarehouse=Integer.parseInt(br.readLine());
-			for(int i=0;i<nbwarehouse;i++)
-			{
-			String loca=br.readLine();
-			ll=loca.split("\\s+");
-			r=Integer.parseInt(ll[0]);
-			c=Integer.parseInt(ll[1]);
-			HashMap<ProductType,Integer> curitems=new HashMap<>();
-			
-			String items=br.readLine();
-			String[] ss=items.split("\\s+");
-			for(int j=0;j<nbProds;j++)
-			{
-				if(!ss[j].equals("0"))
-				{
-					//there are items of this prodtype
-					curitems.put(prods.get(j), Integer.parseInt(ss[j]));
+
+			int nbwarehouse = Integer.parseInt(br.readLine());
+			for (int i = 0; i < nbwarehouse; i++) {
+				String loca = br.readLine();
+				ll = loca.split("\\s+");
+				r = Integer.parseInt(ll[0]);
+				c = Integer.parseInt(ll[1]);
+				HashMap<ProductType, Integer> curitems = new HashMap<>();
+
+				String items = br.readLine();
+				String[] ss = items.split("\\s+");
+				for (int j = 0; j < nbProds; j++) {
+					if (!ss[j].equals("0")) {
+						// there are items of this prodtype
+						curitems.put(prods.get(j), Integer.parseInt(ss[j]));
+					}
 				}
-			}
-			warehouses.add(new Warehouse(new Point(r,c),curitems));
+				warehouses.add(new Warehouse(new Point(r, c), curitems));
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
-	public static void parseFile()
-	{	
+
+	public static void parseFile() {
 		BufferedReader br;
 		try {
-			
+
 			br = new BufferedReader(new FileReader("/home/dandachi/workspace/hash/src/dc.in"));
 
 			String line = br.readLine();
@@ -137,37 +123,57 @@ public class hashashna {
 			// init u
 			line = br.readLine();
 			int countu = 0;
-			
+
 			br.close();
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
+
 	public static void main(String[] args) {
 
 		parseFile();
-		
-		for(Order o:orders)
-		{
+
+		for (Order o : orders) {
 			Warehouse min;
-			Double distMin=Double.MAX_VALUE,percOrder=0.0,dist=0.0;
-			Integer eddon;
-			for(Warehouse wh:warehouses)
-			{
-				dist=Math.sqrt((wh.location.r-o.location.r)*(wh.location.r-o.location.r)+(wh.location.c-o.location.c)*(wh.location.c-o.location.c));
-				for(ProductType pt:o.items.keySet())
-				{
-					Integer badna=o.items.get(pt);
-					Integer whB2albo=wh.items.get(pt);
-					
+			Double distMin = Double.MAX_VALUE, percOrder = 0.0, dist = 0.0;
+			Integer eddon = 0;
+			for (Warehouse wh : warehouses) {
+				eddon = 0;
+				dist = 0.0;
+				percOrder = 0.0;
+
+				dist = Point.Distance(wh.location, o.location);
+				for (ProductType pt : o.items.keySet()) {
+					Integer badna = o.items.get(pt);
+					Integer whB2albo = wh.items.get(pt);
+					if (badna - whB2albo <= 0) {
+						eddon += badna;
+					} else {
+						eddon += whB2albo;
+					}
 				}
+				percOrder = eddon.doubleValue() / o.nbItems.doubleValue();
+				if (percOrder > 0.0)
+					dist = dist / percOrder;
+				else
+					dist = Double.MAX_VALUE;
+				if (dist < distMin) {
+					distMin = dist;
+					min = wh;
+				}
+
+			}
+			Double distDronMin=Double.MAX_VALUE;
+			Drone droneMin;
+			for(Drone drone:drones)
+			{
+				
 			}
 		}
-		
-		
 
 	}
 
