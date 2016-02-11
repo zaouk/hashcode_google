@@ -38,15 +38,15 @@ public class hashashna {
 		String line = br.readLine();
 		String[] splitted;
 		Integer r, c, L;
-		numberOrders = Integer.parseInt(line);
+		numberOrders = Integer.parseInt(line.split("\\s+")[0]);
 		orders = new ArrayList<Order>();
 		for (int i = 0; i < numberOrders; i++) {
 			line = br.readLine();
-			splitted = line.split("");
+			splitted = line.split("\\s+");
 			r = Integer.parseInt(splitted[0]);
 			c = Integer.parseInt(splitted[1]);
 			line = br.readLine();
-			L = Integer.parseInt(line);
+			L = Integer.parseInt(line.split("\\s+")[0]);
 			Order order = new Order(new Point(r, c));
 
 			line = br.readLine();
@@ -65,10 +65,11 @@ public class hashashna {
 		String prodWeights;
 		String[] weights;
 		try {
-			nbProds = Integer.parseInt(br.readLine());
+			nbProds = Integer.parseInt(br.readLine().split("\\s+")[0]);
 			prodWeights = br.readLine();
 			weights = prodWeights.split("\\s+");
 
+			prods=new HashMap<>();
 			for (int i = 0; i < nbProds; i++) {
 				prods.put(i, new ProductType(i, Integer.parseInt(weights[i])));
 			}
@@ -85,7 +86,7 @@ public class hashashna {
 		String[] ll;
 		try {
 
-			int nbwarehouse = Integer.parseInt(br.readLine());
+			int nbwarehouse = Integer.parseInt(br.readLine().split("\\s+")[0]);
 			for (int i = 0; i < nbwarehouse; i++) {
 				String loca = br.readLine();
 				ll = loca.split("\\s+");
@@ -101,6 +102,7 @@ public class hashashna {
 						curitems.put(prods.get(j), Integer.parseInt(ss[j]));
 					}
 				}
+				warehouses=new ArrayList<>();
 				warehouses.add(new Warehouse(new Point(r, c), curitems));
 			}
 		} catch (IOException e) {
@@ -114,12 +116,16 @@ public class hashashna {
 		BufferedReader br;
 		try {
 
-			br = new BufferedReader(new FileReader("/home/dandachi/workspace/hash/src/dc.in"));
+			br = new BufferedReader(new FileReader("samplein.in"));
 
 			String line = br.readLine();
 			String[] splitline;
 			// init header
 			parseHeader(line);
+			readProductTypes(br);
+			readWareHouses(br);
+			parseOrder(br);
+			
 			// init u
 			line = br.readLine();
 			int countu = 0;
@@ -183,6 +189,7 @@ public class hashashna {
 					}
 					
 			}
+			droneMin.LoadItem();
 			droneMin.Deliver(o, lifinane5domin);
 		}
 

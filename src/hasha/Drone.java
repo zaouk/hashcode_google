@@ -21,22 +21,20 @@ public class Drone {
 		
 	}
 	
-	public void LoadItem(ProductType type,int nb)
+	public void LoadItems(HashMap<ProductType,Integer> itemsToLoad)
 	{
-		if(type.weight*nb>maxPayLoad)
+		for(ProductType pt:itemsToLoad.keySet())
 		{
-			//can't load 
-		}
-		else
-		{	currentPayLoad+=type.weight*nb;
-			items.put(type, nb);
+			
 		}
 	}
 	public void Deliver(Order order, HashMap<ProductType,Integer> items)
 	{
 		currentTurn+=Point.Distance(location, order.location).intValue()+1;
 		for(ProductType pt:items.keySet())
-		order.removeItems(pt,items.get(pt));
+				order.removeItems(pt,items.get(pt));
+		
+		
 		
 		
 	}
