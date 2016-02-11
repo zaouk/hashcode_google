@@ -1,10 +1,12 @@
 package hasha;
 
 import java.util.HashMap;
+import java.util.TreeMap;
 
 public class Order {
-	HashMap<ProductType, Integer> items;
-	Point location;
+	public HashMap<ProductType, Integer> items;
+	public Point location;
+	public Integer nbItems;
 
 	public Order(Point p) {
 		location = p;

@@ -10,16 +10,16 @@ public class hashashna {
 	Integer rowsMax,columnsMax,numberOfDrones,deadlineTime,maxLoad;
 	ArrayList<Drone> drones;
 	Integer numberOrders;
-	ArrayList<Order> orders;
+	static ArrayList<Order> orders;
 	
 	Integer Max;
 	HashMap<Integer,ProductType> prods;
-	ArrayList<Warehouse> warehouses;
+	static ArrayList<Warehouse> warehouses;
 	HashMap<ProductType,Integer> items;
 	int nbProds;
 
 	
-	public void parseHeader(String line)
+	public static void parseHeader(String line)
 	{
 		String[] splitline;
 		splitline=line.split(" ");
@@ -56,7 +56,7 @@ public class hashashna {
 			
 			line=br.readLine();
 			splitted=line.split("");
-			
+			order.nbItems=L;
 			for(int j=0;j<L;j++)
 			{
 				order.addItem(prods.get(j), 1);
@@ -123,7 +123,7 @@ public class hashashna {
 		}
 		
 	}
-	public void parseFile()
+	public static void parseFile()
 	{	
 		BufferedReader br;
 		try {
@@ -147,8 +147,27 @@ public class hashashna {
 		
 	}
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		System.out.println("nothing");
+
+		parseFile();
+		
+		for(Order o:orders)
+		{
+			Warehouse min;
+			Double distMin=Double.MAX_VALUE,percOrder=0.0,dist=0.0;
+			Integer eddon;
+			for(Warehouse wh:warehouses)
+			{
+				dist=Math.sqrt((wh.location.r-o.location.r)*(wh.location.r-o.location.r)+(wh.location.c-o.location.c)*(wh.location.c-o.location.c));
+				for(ProductType pt:o.items.keySet())
+				{
+					Integer badna=o.items.get(pt);
+					Integer whB2albo=wh.items.get(pt);
+					
+				}
+			}
+		}
+		
+		
 
 	}
 
