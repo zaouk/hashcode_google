@@ -8,6 +8,8 @@ import java.util.ArrayList;
 public class hashashna {
 	Integer rowsMax,columnsMax,numberOfDrones,deadlineTime,maxLoad;
 	ArrayList<Drone> drones;
+	Integer numberOrders;
+	ArrayList<Order> orders;
 	public void parseHeader(String line)
 	{
 		String[] splitline;
@@ -21,10 +23,20 @@ public class hashashna {
 		drones=new ArrayList<Drone>();
 		for(int i=0;i<numberOfDrones;i++)
 		{
-			drones.add(new Drone());
+			drones.add(new Drone(maxLoad));
 		}
 		
-		
+	}
+	public void parseOrder(BufferedReader br) throws IOException
+	{
+		String line=br.readLine();
+		numberOrders=Integer.parseInt(line);
+		line=br.readLine();
+		orders=new ArrayList<Order>();
+		for(int i=0;i<numberOrders;i++)
+		{
+			
+		}
 	}
 	public void parseFile()
 	{	
@@ -41,16 +53,6 @@ public class hashashna {
 			line = br.readLine();
 			int countu = 0;
 			
-			while (line != null) {
-				splitline = line.split(" ");
-				if (countu < Max) {
-					countu++;
-
-				} else {
-				}
-				line = br.readLine();
-
-			}
 			br.close();
 
 		} catch (IOException e) {
