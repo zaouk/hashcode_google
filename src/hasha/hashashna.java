@@ -138,22 +138,25 @@ public class hashashna {
 		parseFile();
 
 		for (Order o : orders) {
-			Warehouse min;
+			Warehouse min=new Warehouse(new Point(1,1), new HashMap<ProductType,Integer>());
 			Double distMin = Double.MAX_VALUE, percOrder = 0.0, dist = 0.0;
 			Integer eddon = 0;
+			HashMap<ProductType,Integer> lifinane5domin=new HashMap<ProductType,Integer>();
 			for (Warehouse wh : warehouses) {
 				eddon = 0;
 				dist = 0.0;
 				percOrder = 0.0;
-
+				HashMap<ProductType,Integer> lifinane5do=new HashMap<ProductType,Integer>();
 				dist = Point.Distance(wh.location, o.location);
 				for (ProductType pt : o.items.keySet()) {
 					Integer badna = o.items.get(pt);
 					Integer whB2albo = wh.items.get(pt);
 					if (badna - whB2albo <= 0) {
 						eddon += badna;
+						lifinane5do.put(pt, badna);
 					} else {
 						eddon += whB2albo;
+						lifinane5do.put(pt, whB2albo);
 					}
 				}
 				percOrder = eddon.doubleValue() / o.nbItems.doubleValue();
@@ -164,15 +167,23 @@ public class hashashna {
 				if (dist < distMin) {
 					distMin = dist;
 					min = wh;
+					lifinane5domin=lifinane5do;
 				}
 
 			}
 			Double distDronMin=Double.MAX_VALUE;
-			Drone droneMin;
+			Drone droneMin=new Drone();
 			for(Drone drone:drones)
 			{
-				
+				Double distDron=Point.Distance(drone.location, min.location)+drone.currentTurn;
+				if(distDron<distDronMin)
+					{
+						distDronMin=distDron;
+						droneMin=drone;
+					}
+					
 			}
+			droneMin.Deliver(o, lifinane5domin);
 		}
 
 	}

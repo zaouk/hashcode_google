@@ -10,6 +10,7 @@ public class Order {
 
 	public Order(Point p) {
 		location = p;
+		items=new HashMap<ProductType,Integer>();
 	}
 
 	public void addItem(ProductType type, Integer nbitems) {
